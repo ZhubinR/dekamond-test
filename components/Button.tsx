@@ -1,14 +1,22 @@
+import React, { forwardRef, ButtonHTMLAttributes } from "react";
 import styles from "@/styles/Button.module.scss";
 
-type Props = {
-  text: string;
-  onClick: () => void;
-};
-
-export default function Button({ text, onClick }: Props) {
-  return (
-    <button className={styles.btn} onClick={onClick}>
-      {text}
-    </button>
-  );
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
 }
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, className = "", ...props }, ref) => (
+    <button
+      ref={ref}
+      className={`${styles.btn} ${className}`.trim()}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+);
+
+Button.displayName = "Button";
+
+export default Button;
